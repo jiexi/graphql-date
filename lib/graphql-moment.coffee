@@ -2,11 +2,11 @@ assertErr = require 'assert-err'
 GraphQLScalarType = require('graphql').GraphQLScalarType
 GraphQLError = require('graphql/error').GraphQLError
 Kind = require('graphql/language').Kind
+moment = require 'moment'
 
-module.exports = ({inputFormat}) ->
-
+module.exports = (dateFormat = 'YYYY-MM-DDTHH:MM:SS.SSSZ') ->
   new GraphQLScalarType
-    name: 'Date'
+    name: "Date: #{dateFormat}"
 
     #  Serialize date value into string
     #  @param  {Date} value date value
@@ -14,15 +14,17 @@ module.exports = ({inputFormat}) ->
     serialize: (value) ->
       assertErr value instanceof Date, TypeError, 'Field error: value is not an instance of Date'
       assertErr not isNaN(value.getTime()), TypeError, 'Field error: value is an invalid Date'
-      value.toJSON()
+      moment(value).format dateFormat
+
 
     # Parse value into date
     # @param  {*} value serialized date value
     # @return {Date} date value
     parseValue: (value) ->
-      date = new Date value
-      assertErr not isNaN(date.getTime()), TypeError, 'Field error: value is an invalid Date'
-      date
+      date = moment value, dateFormat
+      assertErr date.isValid(), TypeError, 'Field error: value is an invalid Date'
+      date.toDate()
+
 
     # Parse ast literal to date
     # @param  {Object} ast graphql ast
@@ -30,9 +32,7 @@ module.exports = ({inputFormat}) ->
     parseLiteral: (ast) ->
       assertErr ast.kind === Kind.STRING,
         GraphQLError, 'Query error: Can only parse strings to dates but got a: ' + ast.kind, [ast]
-      result = new Date ast.value
-      assertErr not isNaN(result.getTime()),
-        GraphQLError, 'Query error: Invalid date', [ast]
-      assertErr ast.value === result.toJSON(),
-        GraphQLError, 'Query error: Invalid date format, only accepts: YYYY-MM-DDTHH:MM:SS.SSSZ', [ast]
-      result
+      date = moment ast.value, dateFormat
+      assertErr date.isValid(),
+        GraphQLError, "Query error: Invalid date format, only accepts: #{dateFormat}", [ast]
+      date.toDate()
