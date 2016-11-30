@@ -1,7 +1,7 @@
 {
-  "name": "graphql-date",
-  "version": "1.0.2",
-  "description": "GraphQL Date Type",
+  "name": "graphql-moment",
+  "version": "0.0.1",
+  "description": "GraphQL Moment Date Type",
   "main": "index.js",
   "scripts": {
     "test": "istanbul cover _mocha ./test && istanbul --text check-coverage --statements 100 --functions 100 --branches 100 --lines 100",
@@ -10,20 +10,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/tjmehta/graphql-date.git"
+    "url": "https://github.com/jiexi/graphql-moment.git"
   },
   "keywords": [
     "graphql",
     "date",
     "type",
-    "datetype"
+    "datetype",
+    "moment"
   ],
-  "author": "Tejesh Mehta",
+  "author": "Jiexi Luan",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/tjmehta/graphql-date/issues"
+    "url": "https://github.com/jiexi/graphql-moment/issues"
   },
-  "homepage": "https://github.com/tjmehta/graphql-date",
+  "homepage": "https://github.com/jiexi/graphql-moment",
   "devDependencies": {
     "chai": "^3.5.0",
     "istanbul": "^0.4.3",
