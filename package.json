@@ -32,7 +32,8 @@
     "graphql": ">=0.5.0"
   },
   "dependencies": {
-    "assert-err": "^1.0.0"
+    "assert-err": "^1.0.0",
+    "coffee-script": "^1.11.1"
   },
   "peerDependencies": {
     "graphql": ">=0.5.0"
