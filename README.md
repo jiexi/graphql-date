@@ -8,7 +8,7 @@ npm i --save graphql-moment
 
 # Usage
 ```js
-var GraphQLDate = require('graphql-moment')
+var GraphQLMoment = require('graphql-moment')
 
 // Use graphql-moment in your GraphQL objects for Date properties
 var fooType = new GraphQLObjectType({
@@ -16,7 +16,7 @@ var fooType = new GraphQLObjectType({
   description: 'Some foo type',
   fields: {
     created: {
-      type: GraphQLMoment,
+      type: GraphQLMoment(), // defaults to standard ISO 8601 date format
       description: 'Date foo was created'
     }
   }
@@ -33,6 +33,13 @@ var queryType = new GraphQLObjectType({
     }
   }
 })
+```
+
+# Custom date formats
+```js
+GraphQLMoment() // ISO 8601 format
+GraphQLMoment('YYYY-MM-DD') // YYYY-MM-DD format
+GraphQLMoment('x') // unix epoch format
 ```
 
 # License
