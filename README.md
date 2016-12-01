@@ -1,4 +1,4 @@
-# graphql-moment <!-- [![Build Status](https://travis-ci.org/tjmehta/graphql-date.svg)](https://travis-ci.org/tjmehta/graphql-date) [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](http://standardjs.com/) -->
+# graphql-moment [![Build Status](https://travis-ci.org/jiexi/graphql-moment.svg?branch=master)](https://travis-ci.org/jiexi/graphql-moment)
 GraphQL Moment Date Type
 
 # Installation
