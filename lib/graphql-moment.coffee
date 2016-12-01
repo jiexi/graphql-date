@@ -1,23 +1,24 @@
+{GraphQLScalarType} = require 'graphql'
+{GraphQLError} = require 'graphql/error'
+{Kind} = require 'graphql/language'
 assertErr = require 'assert-err'
-GraphQLScalarType = require('graphql').GraphQLScalarType
-GraphQLError = require('graphql/error').GraphQLError
-Kind = require('graphql/language').Kind
 moment = require 'moment'
+
 
 module.exports = (dateFormat, name = 'Date') ->
 
-  momentFromString = (value) ->
+  momentFromValue = (value) ->
     if dateFormat
-      moment value, dateFormat
+      moment value, dateFormat, true
     else
-      moment value
+      moment value, moment.ISO_8601, true
 
 
-  stringFromDate = (date) ->
+  valueFromDate = (date) ->
     if dateFormat
       moment(date).format dateFormat
     else
-      moment(date).toJSON()
+      moment(date).toISOString()
 
 
   descriptionForDateFormat = ->
@@ -30,17 +31,17 @@ module.exports = (dateFormat, name = 'Date') ->
     #  Serialize date value into string
     #  @param  {Date} value date value
     #  @return {String} date as string
-    serialize: (value) ->
-      assertErr value instanceof Date, TypeError, 'Field error: value is not an instance of Date'
-      assertErr not isNaN(value.getTime()), TypeError, 'Field error: value is an invalid Date'
-      stringFromDate value
+    serialize: (date) ->
+      assertErr date instanceof Date, TypeError, 'Field error: value is not an instance of Date'
+      assertErr not isNaN(date.getTime()), TypeError, 'Field error: value is an invalid Date'
+      valueFromDate date
 
 
     # Parse value into date
     # @param  {*} value serialized date value
     # @return {Date} date value
     parseValue: (value) ->
-      date = momentFromString value
+      date = momentFromValue value
       assertErr date.isValid(), TypeError, 'Field error: value is an invalid Date'
       date.toDate()
 
@@ -51,9 +52,8 @@ module.exports = (dateFormat, name = 'Date') ->
     parseLiteral: (ast) ->
       assertErr ast.kind is Kind.STRING,
         GraphQLError, 'Query error: Can only parse strings to dates but got a: ' + ast.kind, [ast]
-      date = momentFromString ast.value
-
-      assertErr date.isValid() and ast.value is stringFromDate date,
+      date = momentFromValue ast.value
+      assertErr (date.isValid() and ast.value is valueFromDate date),
         GraphQLError, "Query error: Invalid date format, only accepts: #{descriptionForDateFormat()}", [ast]
       date.toDate()
   }
