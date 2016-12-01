@@ -22,13 +22,13 @@ var fooType = new GraphQLObjectType({
   }
 });
 
-var fooType = new GraphQLObjectType({
-  name: 'Foo',
-  description: 'Some foo type',
+var barType = new GraphQLObjectType({
+  name: 'Bar',
+  description: 'Some bar type',
   fields: {
     created: {
-      type: GraphQLDate, // defaults to standard ISO 8601 date format
-      description: 'Date foo was created'
+      type: Factory('h:mm:ss', 'Time'), // custom date format type called 'Time'
+      description: 'Time bar was created'
     }
   }
 });
