@@ -1,6 +1,6 @@
 {
   "name": "graphql-moment",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "GraphQL Moment Date Type",
   "main": "index.js",
   "scripts": {
