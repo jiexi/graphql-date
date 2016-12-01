@@ -37,3 +37,6 @@ var queryType = new GraphQLObjectType({
 
 # License
 MIT
+
+# Based on
+[https://github.com/tjmehta/graphql-date](https://github.com/tjmehta/graphql-date)
